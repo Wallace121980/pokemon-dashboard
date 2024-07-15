@@ -1,4 +1,4 @@
-import { PokemonSearch } from '../../components/PokemonSearch';
+import { PokemonSearch } from '@/components/PokemonSearch';
 
 export default function SearchPage() {
   return (

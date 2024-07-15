@@ -13,6 +13,9 @@ export const Navbar = () => {
         <Link href="/compare" className="mr-4">
           Compare
         </Link>
+        <Link href="/charts" className="mr-4">
+          Charts
+        </Link>
       </nav>
     </div>
   );
