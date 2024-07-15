@@ -10,6 +10,9 @@ export const Navbar = () => {
         <Link href="/search" className="mr-4">
           Search
         </Link>
+        <Link href="/compare" className="mr-4">
+          Compare
+        </Link>
       </nav>
     </div>
   );
