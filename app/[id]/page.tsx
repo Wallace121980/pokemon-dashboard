@@ -1,4 +1,4 @@
-import PokemonDetails from '@/components/PokemonDetails';
+import { PokemonDetails } from '@/components/PokemonDetails';
 
 export default function Page() {
   return (

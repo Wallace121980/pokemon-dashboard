@@ -9,17 +9,15 @@ interface Pokemon {
   url: string;
 }
 
-const PokemonList: React.FC = () => {
+export const PokemonList = () => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
   useEffect(() => {
     axios
-      .get('https://pokeapi.co/api/v2/pokemon?limit=20')
+      .get('https://pokeapi.co/api/v2/pokemon?limit=50')
       .then((response) => setPokemon(response.data.results))
       .catch((error) => console.error(error));
   }, []);
-
-  console.log(pokemon);
 
   return (
     <div className="p-4">
@@ -39,5 +37,3 @@ const PokemonList: React.FC = () => {
     </div>
   );
 };
-
-export default PokemonList;

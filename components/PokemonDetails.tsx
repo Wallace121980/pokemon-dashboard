@@ -12,12 +12,9 @@ interface PokemonDetails {
   sprites: { front_default: string };
 }
 
-const PokemonDetails: React.FC = () => {
+export const PokemonDetails = () => {
   const [details, setDetails] = useState<PokemonDetails | null>(null);
   const pathName = usePathname();
-
-  console.log(pathName);
-  console.log(details);
 
   useEffect(() => {
     if (pathName) {
@@ -54,5 +51,3 @@ const PokemonDetails: React.FC = () => {
     </div>
   );
 };
-
-export default PokemonDetails;
