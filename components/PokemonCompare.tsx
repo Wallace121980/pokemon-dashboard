@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from './button/button';
 
 export const PokemonCompare = () => {
   const [firstPokemon, setFirstPokemon] = useState('');
@@ -39,12 +40,7 @@ export const PokemonCompare = () => {
           onChange={(e) => setSecondPokemon(e.target.value)}
           className="ml-2 border border-gray-300 p-2 rounded text-black"
         />
-        <button
-          onClick={handleCompare}
-          className="ml-2 bg-blue-500 text-white p-2 rounded"
-        >
-          Compare
-        </button>
+        <Button onClick={handleCompare}>Compare</Button>
       </div>
       {firstDetails && secondDetails && (
         <div className="bg-white p-4 rounded-lg shadow-md text-black">

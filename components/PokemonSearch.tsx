@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from './button/button';
 
 export const PokemonSearch = () => {
   const [query, setQuery] = useState('');
@@ -24,12 +25,7 @@ export const PokemonSearch = () => {
           onChange={(e) => setQuery(e.target.value)}
           className="border border-gray-300 p-2 rounded text-black"
         />
-        <button
-          onClick={handleSearch}
-          className="ml-2 bg-blue-500 text-white p-2 rounded"
-        >
-          Search
-        </button>
+        <Button onClick={handleSearch}>Search</Button>
       </div>
       <ul className="list-disc list-inside">
         {results.map((result, index) => (
