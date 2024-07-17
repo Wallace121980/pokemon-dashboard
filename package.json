@@ -11,6 +11,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "@heroicons/react": "^2.1.5",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "next": "14.2.5",
