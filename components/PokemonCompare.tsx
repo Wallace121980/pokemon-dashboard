@@ -10,7 +10,8 @@ export const PokemonCompare = () => {
   const [firstDetails, setFirstDetails] = useState<any>(null);
   const [secondDetails, setSecondDetails] = useState<any>(null);
 
-  const handleCompare = () => {
+  const handleCompare = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     Promise.all([
       axios.get(`https://pokeapi.co/api/v2/pokemon/${firstPokemon}`),
       axios.get(`https://pokeapi.co/api/v2/pokemon/${secondPokemon}`),
@@ -24,23 +25,39 @@ export const PokemonCompare = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Compare Pokémon</h1>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="First Pokémon"
-          value={firstPokemon}
-          onChange={(e) => setFirstPokemon(e.target.value)}
-          className="border border-gray-300 p-2 rounded text-black"
-        />
-        <input
-          type="text"
-          placeholder="Second Pokémon"
-          value={secondPokemon}
-          onChange={(e) => setSecondPokemon(e.target.value)}
-          className="ml-2 border border-gray-300 p-2 rounded text-black"
-        />
-        <Button onClick={handleCompare}>Compare</Button>
+      <h1 className="text-2xl font-bold mb-4 text-white">Compare Pokémon</h1>
+
+      <div className="bg-white shadow sm:rounded-lg mb-4">
+        <div className="px-4 py-5 sm:p-6">
+          <h3 className="text-base font-semibold leading-6 text-gray-900">
+            Compare your Pokemon
+          </h3>
+
+          <form
+            className="mt-5 sm:flex sm:items-center"
+            onSubmit={handleCompare}
+          >
+            <div className="w-full sm:max-w-xs mr-4">
+              <input
+                type="text"
+                value={firstPokemon}
+                onChange={(e) => setFirstPokemon(e.target.value)}
+                placeholder="pikachu"
+                className="block w-full rounded-md border-0 py-1.5 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+            <div className="w-full sm:max-w-xs">
+              <input
+                type="text"
+                value={secondPokemon}
+                onChange={(e) => setSecondPokemon(e.target.value)}
+                placeholder="bulbasaur"
+                className="block w-full rounded-md border-0 py-1.5 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+            <Button type="submit">Compare</Button>
+          </form>
+        </div>
       </div>
       {firstDetails && secondDetails && (
         <div className="bg-white p-4 rounded-lg shadow-md text-black">
