@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Button } from './button/button';
 
 export const PokemonCompare = () => {
@@ -10,17 +9,33 @@ export const PokemonCompare = () => {
   const [firstDetails, setFirstDetails] = useState<any>(null);
   const [secondDetails, setSecondDetails] = useState<any>(null);
 
-  const handleCompare = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleCompare = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    Promise.all([
-      axios.get(`https://pokeapi.co/api/v2/pokemon/${firstPokemon}`),
-      axios.get(`https://pokeapi.co/api/v2/pokemon/${secondPokemon}`),
-    ])
-      .then(([firstResponse, secondResponse]) => {
-        setFirstDetails(firstResponse.data);
-        setSecondDetails(secondResponse.data);
-      })
-      .catch((error) => console.error(error));
+    try {
+      // Fetch details for the first Pokemon
+      const response1 = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${firstPokemon}`
+      );
+      if (!response1.ok) {
+        throw new Error('Failed to fetch details for the first Pokemon');
+      }
+      const pokemon1 = await response1.json();
+
+      // Fetch details for the second Pokemon
+      const response2 = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${secondPokemon}`
+      );
+      if (!response2.ok) {
+        throw new Error('Failed to fetch details for the second Pokemon');
+      }
+      const pokemon2 = await response2.json();
+
+      setFirstDetails(pokemon1);
+      setSecondDetails(pokemon2);
+    } catch (error) {
+      console.error(error);
+      // Handle errors, such as updating the UI to show an error message
+    }
   };
 
   return (

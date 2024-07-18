@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
@@ -19,15 +18,25 @@ export const PokemonDetails = () => {
   const pathName = usePathname();
 
   useEffect(() => {
-    if (pathName) {
-      axios
-        .get(`https://pokeapi.co/api/v2/pokemon${pathName}`)
-        .then((response) => setDetails(response.data))
-        .catch((error) => console.error(error));
-    }
-  }, [pathName]);
+    const fetchDetails = async () => {
+      if (pathName) {
+        try {
+          const response = await fetch(
+            `https://pokeapi.co/api/v2/pokemon${pathName}`
+          );
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setDetails(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
 
-  console.log(details);
+    fetchDetails();
+  }, [pathName]);
 
   return (
     <div className="p-4 flex justify-center items-center">

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   BarChart,
   Bar,
@@ -20,17 +19,31 @@ export const PokemonCharts = () => {
   ]);
 
   useEffect(() => {
-    axios
-      .get('https://pokeapi.co/api/v2/pokemon?limit=20')
-      .then((response) => {
-        const requests = response.data.results.map((poke: any) =>
-          axios.get(poke.url)
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://pokeapi.co/api/v2/pokemon?limit=10'
         );
-        Promise.all(requests).then((results) => {
-          setPokemon(results.map((result) => result.data));
-        });
-      })
-      .catch((error) => console.error(error));
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        const pokemonDetails = await Promise.all(
+          data.results.map(async (poke: any) => {
+            const pokeResponse = await fetch(poke.url);
+            if (!pokeResponse.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return pokeResponse.json();
+          })
+        );
+        setPokemon(pokemonDetails);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const data = pokemon.map((p) => ({

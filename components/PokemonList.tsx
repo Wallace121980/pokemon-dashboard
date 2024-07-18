@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { PokemonCards } from './PokemonCards';
 
 export type Pokemon = {
@@ -13,10 +12,19 @@ export const PokemonList = () => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
   useEffect(() => {
-    axios
-      .get('https://pokeapi.co/api/v2/pokemon?limit=50')
-      .then((response) => setPokemon(response.data.results))
-      .catch((error) => console.error(error));
+    const fetchPokemon = async () => {
+      try {
+        const response = await fetch(
+          'https://pokeapi.co/api/v2/pokemon?limit=50'
+        );
+        const data = await response.json();
+        setPokemon(data.results);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchPokemon();
   }, []);
 
   return (

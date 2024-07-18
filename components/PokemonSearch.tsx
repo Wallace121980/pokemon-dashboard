@@ -1,19 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Button } from './button/button';
 
 export const PokemonSearch = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${query}`)
-      .then((response) => setResults([response.data]))
-      .catch((error) => console.error(error));
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${query}`
+      );
+      const data = await response.json();
+      setResults([data]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
