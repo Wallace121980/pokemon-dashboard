@@ -11,6 +11,7 @@ const config: Config = {
   preset: 'ts-jest',
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
+  setupFiles: ['jest-fetch-mock/setupJest.js'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
