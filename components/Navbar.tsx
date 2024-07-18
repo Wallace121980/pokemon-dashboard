@@ -1,19 +1,18 @@
+'use client';
+
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
 } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { usePathname } from 'next/navigation';
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Search', href: '/search', current: false },
-  { name: 'Compare', href: '/compare', current: false },
-  { name: 'Charts', href: '/charts', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'Search', href: '/search' },
+  { name: 'Compare', href: '/compare' },
+  { name: 'Charts', href: '/charts' },
 ];
 
 function classNames(...classes: string[]) {
@@ -21,6 +20,7 @@ function classNames(...classes: string[]) {
 }
 
 export const Navbar = () => {
+  const pathName = usePathname();
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -47,9 +47,9 @@ export const Navbar = () => {
                   <a
                     key={item.name}
                     href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={pathName === item.href ? 'page' : undefined}
                     className={classNames(
-                      item.current
+                      pathName === item.href
                         ? 'bg-gray-900 text-white'
                         : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'rounded-md px-3 py-2 text-sm font-medium'
@@ -71,9 +71,9 @@ export const Navbar = () => {
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.current ? 'page' : undefined}
+              aria-current={pathName === item.href ? 'page' : undefined}
               className={classNames(
-                item.current
+                pathName === item.href
                   ? 'bg-gray-900 text-white'
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium'
