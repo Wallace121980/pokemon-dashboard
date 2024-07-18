@@ -4,21 +4,35 @@ import React, { useState } from 'react';
 import { Button } from './Button';
 import { PokemonDetailsCard } from './PokemonDetailsCard';
 import { PokemonDetails } from './PokemonDetails';
+import { Loader } from './Loader';
+import { ErrorMessage } from './ErrorMessage';
 
 export const PokemonSearch = () => {
   const [query, setQuery] = useState('');
   const [pokemons, setPokemons] = useState<PokemonDetails[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
     try {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${query}`
       );
+      if (!response.ok) {
+        setError('Failed to fetch Pokémon details');
+      }
       const data = await response.json();
       setPokemons([data]);
     } catch (error) {
-      console.error(error);
+      setError(
+        error instanceof Error ? error.message : 'An unexpected error occurred'
+      );
+      setPokemons([]); // Clear previous results on error
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,14 +63,16 @@ export const PokemonSearch = () => {
         </div>
       </div>
 
-      {pokemons.length ? (
+      {loading && <Loader />}
+      {error && <ErrorMessage message={error} />}
+      {!loading && !error && pokemons.length ? (
         <div className="p-4 flex justify-center items-center">
           {pokemons.map((pokemon, index) => (
             <PokemonDetailsCard key={index} details={pokemon} />
           ))}
         </div>
       ) : (
-        <p className="text-white">No results found</p>
+        !loading && !error && <p className="text-white">No results found</p>
       )}
     </div>
   );

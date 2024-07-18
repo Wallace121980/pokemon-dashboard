@@ -3,39 +3,54 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
 import { PokemonDetailsCard } from './PokemonDetailsCard';
+import { Loader } from './Loader';
+import { ErrorMessage } from './ErrorMessage';
 
 export const PokemonCompare = () => {
   const [firstPokemon, setFirstPokemon] = useState('');
   const [secondPokemon, setSecondPokemon] = useState('');
   const [firstDetails, setFirstDetails] = useState<any>(null);
   const [secondDetails, setSecondDetails] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCompare = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      // Fetch details for the first Pokemon
-      const response1 = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${firstPokemon}`
-      );
-      if (!response1.ok) {
-        throw new Error('Failed to fetch details for the first Pokemon');
-      }
-      const pokemon1 = await response1.json();
+    setLoading(true);
+    setError(null); // Reset error state on new comparison
 
-      // Fetch details for the second Pokemon
-      const response2 = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${secondPokemon}`
+    try {
+      const urls = [
+        `https://pokeapi.co/api/v2/pokemon/${firstPokemon}`,
+        `https://pokeapi.co/api/v2/pokemon/${secondPokemon}`,
+      ];
+      const responses = await Promise.all(urls.map((url) => fetch(url)));
+
+      // Check for any non-OK responses and handle errors
+      const failedResponseIndex = responses.findIndex(
+        (response) => !response.ok
       );
-      if (!response2.ok) {
-        throw new Error('Failed to fetch details for the second Pokemon');
+      if (failedResponseIndex !== -1) {
+        setError(
+          `Failed to fetch details for ${
+            failedResponseIndex === 0 ? 'the first' : 'the second'
+          } Pokemon`
+        );
+        setLoading(false);
+        return;
       }
-      const pokemon2 = await response2.json();
+
+      const [pokemon1, pokemon2] = await Promise.all(
+        responses.map((response) => response.json())
+      );
 
       setFirstDetails(pokemon1);
       setSecondDetails(pokemon2);
+      setLoading(false);
     } catch (error) {
-      console.error(error);
-      // Handle errors, such as updating the UI to show an error message
+      setError(
+        error instanceof Error ? error.message : 'An unexpected error occurred'
+      );
     }
   };
 
@@ -75,7 +90,9 @@ export const PokemonCompare = () => {
           </form>
         </div>
       </div>
-      {firstDetails && secondDetails && (
+      {loading && <Loader />}
+      {error && <ErrorMessage message={error} />}
+      {!loading && !error && firstDetails && secondDetails && (
         <div className="flex justify-between">
           <PokemonDetailsCard details={firstDetails} />
           <div className="flex items-center">

@@ -11,35 +11,45 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { Loader } from './Loader';
+import { ErrorMessage } from './ErrorMessage';
 
 export const PokemonCharts = () => {
   const [pokemon, setPokemon] = useState<any[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<string[]>([
     'weight',
   ]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await fetch(
           'https://pokeapi.co/api/v2/pokemon?limit=20'
         );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          setError('Network response was not ok');
         }
         const data = await response.json();
         const pokemonDetails = await Promise.all(
           data.results.map(async (poke: any) => {
             const pokeResponse = await fetch(poke.url);
             if (!pokeResponse.ok) {
-              throw new Error('Network response was not ok');
+              setError('Network response was not ok');
             }
             return pokeResponse.json();
           })
         );
         setPokemon(pokemonDetails);
+        setLoading(false);
       } catch (error) {
-        console.error(error);
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
       }
     };
 
@@ -60,6 +70,14 @@ export const PokemonCharts = () => {
         : [...prevAttributes, attribute]
     );
   };
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
 
   return (
     <div className="p-4 text-white">
