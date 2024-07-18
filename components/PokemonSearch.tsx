@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { Button } from './button/button';
+import { PokemonDetailsCard } from './PokemonDetailsCard';
+import { PokemonDetails } from './PokemonDetails';
 
 export const PokemonSearch = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<any[]>([]);
+  const [pokemons, setPokemons] = useState<PokemonDetails[]>([]);
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -14,7 +16,7 @@ export const PokemonSearch = () => {
         `https://pokeapi.co/api/v2/pokemon/${query}`
       );
       const data = await response.json();
-      setResults([data]);
+      setPokemons([data]);
     } catch (error) {
       console.error(error);
     }
@@ -47,14 +49,12 @@ export const PokemonSearch = () => {
         </div>
       </div>
 
-      {results.length ? (
-        <ul className="list-disc list-inside">
-          {results.map((result, index) => (
-            <li key={index} className="bg-gray-100 p-2 rounded text-black">
-              {result.name}
-            </li>
+      {pokemons.length ? (
+        <div className="p-4 flex justify-center items-center">
+          {pokemons.map((pokemon, index) => (
+            <PokemonDetailsCard key={index} details={pokemon} />
           ))}
-        </ul>
+        </div>
       ) : (
         <p className="text-white">No results found</p>
       )}

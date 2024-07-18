@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from './button/button';
+import { PokemonDetailsCard } from './PokemonDetailsCard';
 
 export const PokemonCompare = () => {
   const [firstPokemon, setFirstPokemon] = useState('');
@@ -75,26 +76,12 @@ export const PokemonCompare = () => {
         </div>
       </div>
       {firstDetails && secondDetails && (
-        <div className="bg-white p-4 rounded-lg shadow-md text-black">
-          <h2 className="text-xl font-bold">
-            {firstDetails.name} vs {secondDetails.name}
-          </h2>
-          <p>
-            Weight: {firstDetails.weight} vs {secondDetails.weight}
-          </p>
-          <h3 className="text-lg font-semibold mt-4">Abilities</h3>
-          <div className="flex">
-            <ul className="list-disc list-inside mr-4">
-              {firstDetails.abilities.map((ability: any, index: number) => (
-                <li key={index}>{ability.ability.name}</li>
-              ))}
-            </ul>
-            <ul className="list-disc list-inside">
-              {secondDetails.abilities.map((ability: any, index: number) => (
-                <li key={index}>{ability.ability.name}</li>
-              ))}
-            </ul>
+        <div className="flex justify-between">
+          <PokemonDetailsCard details={firstDetails} />
+          <div className="flex items-center">
+            <h1 className="text-white text-8xl font-bold">VS</h1>
           </div>
+          <PokemonDetailsCard details={secondDetails} />
         </div>
       )}
     </div>
