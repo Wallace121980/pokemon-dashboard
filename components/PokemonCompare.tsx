@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from './button/button';
+import { Button } from './Button';
 import { PokemonDetailsCard } from './PokemonDetailsCard';
 
 export const PokemonCompare = () => {
