@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pokémon Dashboard
+
+Pokémon Dashboard is a Next application that allows users to see the abilities and stats of Pokémon. It's designed for Pokémon enthusiasts who want to make informed decisions for their next battle or simply to learn more about their favorite Pokémon.
+
+## Features
+
+- **Search Functionality**: Easily search for Pokémon by name.
+- **Comparison**: Compare two Pokémon side by side, including their abilities, stats, and images.
+- **Dynamic Charts**: Visualize Pokémon data with dynamic bar charts, allowing users to filter by attributes such as weight, height, and base experience.
+- **Up-to-date Information**: Fetches the latest Pokémon data from the [PokéAPI](https://pokeapi.co).
 
 ## Getting Started
 
@@ -6,31 +15,26 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Running Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To run the tests, execute the following command:
 
-## Learn More
+```bash
+npm run test
+# or
+npm run test:watch
+```
 
-To learn more about Next.js, take a look at the following resources:
+This will run the test suite powered by Jest and React Testing Library, ensuring the application behaves as expected.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Demo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Check out the live demo of the application here: [Pokémon Dashboard Demo](https://pokemon-dashboard-zeta.vercel.app/)
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Distributed under the MIT License. See `LICENSE` for more information.

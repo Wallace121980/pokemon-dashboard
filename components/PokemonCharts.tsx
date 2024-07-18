@@ -15,14 +15,14 @@ import {
 export const PokemonCharts = () => {
   const [pokemon, setPokemon] = useState<any[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<string[]>([
-    'weight', // Start with 'weight' selected by default
+    'weight',
   ]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://pokeapi.co/api/v2/pokemon?limit=10'
+          'https://pokeapi.co/api/v2/pokemon?limit=20'
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
